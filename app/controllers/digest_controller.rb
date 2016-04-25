@@ -5,12 +5,12 @@
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
-# 
+#
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
-# 
+#
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
@@ -24,7 +24,7 @@ end
 
 class DigestController < ApplicationController
 	unloadable
-	
+
 	layout 'admin'
 
 	def show_readme
@@ -32,16 +32,16 @@ class DigestController < ApplicationController
 		f = File.dirname(__FILE__) + '/../../' + filename
 		input_string = File.open(f, 'rb').read
 		if Rails::VERSION::MAJOR >=3
-			h = RDoc::Markup::ToHtml.new
+      h = RDoc::Markup::ToHtml.new RDoc::Options.new
 			instructions = h.convert(input_string)
 		else
 			p = SM::SimpleMarkup.new
 			h = SM::ToHtml.new
 			instructions = p.convert(input_string, h)
 		end
-		@readme = { 
-			:filename => filename, 
-			:content => instructions 
+		@readme = {
+			:filename => filename,
+			:content => instructions
 		}
 		respond_to do |format|
 			format.html { render :template => 'settings/digest_readme.html.erb', :layout => 'admin',
@@ -81,7 +81,7 @@ class DigestController < ApplicationController
 				message += "<p>%s</p>" % "There was no resulting email."
 			else
 				message += "<p>%d %s processed.<br />%s</p>" % [
-					@test.length, 
+					@test.length,
 					@test.length == 1 ? "project was" : "projects were",
 					@test.join("<br />")
 				]
@@ -112,13 +112,13 @@ class DigestController < ApplicationController
 			puts "A session was not found."
 		end
 	end
-	
+
 	def send_digest(options={})
 		dbg "Preparing to send digest..."
 		dbg options.inspect
 		digest_send("options", options)
 	end
-	
+
 	def send_all
 		dbg "Preparing to send digest for all projects."
 		digest_send "all"
@@ -128,7 +128,7 @@ class DigestController < ApplicationController
 		dbg "Preparing to send test digest."
 		digest_send "test"
 	end
-	
+
 	def dbg(message)
 		if Setting.plugin_redmine_digest[:debugging_messages]
 			puts message

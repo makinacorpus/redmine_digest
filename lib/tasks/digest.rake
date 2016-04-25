@@ -36,20 +36,19 @@ end
 
 namespace :redmine do
 	task :send_digest, :environment, :project, :start, :days, :debugging_messages do |t, args|
-		if Rails::VERSION::MAJOR >= 3
+		if Rails::VERSION::MAJOR == 3
 			env = Rails.env
 		else
 			env = ENV
 		end
-		
 		options = {}
 		args.with_defaults(:project => nil, :start => nil, :days => nil, :environment => "production")
-		env['environment'] = args[:environment]
+    args[:environment] = env['environment']
 		options[:project] = env['project'] if (env['project'] || args[:project])
 		options[:start] = env['start'].to_i if (env['start'] || args[:start])
 		options[:days] = env['days'].to_i if (env['days'] || args[:days])
 		options[:debugging_messages] = env['debugging_messages'].to_i if (env['debugging_messages'] || args[:debugging_messages])
-
+    
 		DigestMailer.digests(options)
 		puts "Digest done."
 	end
