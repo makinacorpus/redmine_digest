@@ -14,11 +14,11 @@ require_dependency 'redmine_digest/hooks/view_my_account_hook'
 
 if Rails::VERSION::MAJOR >= 3
   Rails.configuration.to_prepare do
-    require_dependency 'redmine_digest_patches'
+    require 'redmine_digest_patches'
   end
 else
   Dispatcher.to_prepare :redmine_digest do
-    require_dependency 'redmine_digest_patches'
+    require 'redmine_digest_patches'
   end
 end
 
@@ -31,11 +31,11 @@ Redmine::Plugin.register :redmine_digest do
   version '0.2.0'
   requires_redmine :version_or_higher => '2.0.0' unless Rails::VERSION::MAJOR < 3
 
-  settings :default => { 
-	:start_default => 1, 
+  settings :default => {
+	:start_default => 1,
 	:days_default => 1,
 	:default_account_enabled => "true",
-	:debugging_messages => 1}, 
+	:debugging_messages => 1},
 	:partial => 'settings/digest_settings'
 
   project_module :redmine_digest do

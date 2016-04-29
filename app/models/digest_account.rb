@@ -2,5 +2,5 @@
 class DigestAccount < ActiveRecord::Base
   unloadable
   belongs_to :user
-
+  attr_accessible :active
 end

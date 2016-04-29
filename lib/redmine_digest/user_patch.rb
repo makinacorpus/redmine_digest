@@ -6,7 +6,6 @@ module RedmineDigest
 
     included do
         unloadable # Send unloadable so it will not be unloaded in development
-
         has_one :digest_account
         accepts_nested_attributes_for :digest_account
         safe_attributes 'digest_account'
