@@ -1,4 +1,4 @@
-class CreateDigestAccounts < ActiveRecord::Migration
+class CreateDigestAccounts <  ActiveRecord::Migration[4.2]
   def self.up
     create_table :digest_accounts, :force => true do |t|
       t.boolean :active
